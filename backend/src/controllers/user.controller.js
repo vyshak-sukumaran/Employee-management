@@ -4,11 +4,18 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const jwt_secret = process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY";
 
-const cookieOptions = {
-  httpOnly: process.env.COOKIE_HTTPONLY || false,
-  secure: process.env.COOKIE_SECURE || false,
+const devCookieOptions = {
+  httpOnly: true,
 };
-
+const prodCookieOptions = {
+  secure: true,
+  httpOnly: true,
+  sameSite: "none",
+};
+const cookieOptions =
+  process.env.ENVIRONMENT === "production"
+    ? prodCookieOptions
+    : devCookieOptions;
 /**
  *
  * @param {import('express').Request} req
