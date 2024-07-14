@@ -7,7 +7,11 @@ import DeleteEmployee from "./DeleteEmployee";
 import { Link } from "react-router-dom";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
+  {
+    field: "id",
+    headerName: "ID",
+    // width: 70
+  },
   {
     field: "name",
     headerName: "Name",
@@ -17,7 +21,7 @@ const columns = [
       </Link>
     ),
   },
-  { field: "address", headerName: "Address" },
+  { field: "address", headerName: "Address", minWidth: 200 },
   {
     field: "dob",
     headerName: "Date of Birth",
@@ -27,7 +31,7 @@ const columns = [
     field: "empStatus",
     headerName: "Employee Status",
     type: "boolean",
-    width: 200,
+    // width: 200,
   },
   {
     field: "salary",
@@ -38,13 +42,8 @@ const columns = [
     field: "modifiedAt",
     headerName: "Modified On",
     type: "dateTime",
-    width: 200,
-  },
-  // {
-  //   field: 'actions',
-  //   headerName: 'Actions',
-  //   width: 160,
-  // },
+    // width: 200,
+  }
 ];
 
 export default function EmployeeList() {
@@ -79,7 +78,6 @@ export default function EmployeeList() {
   if (error) {
     return <Error refetchFn={refetch} />;
   }
-  // console.log(employees, "data");
 
   const rows = employees?.data?.map((employee) => ({
     id: employee.id,
@@ -91,7 +89,7 @@ export default function EmployeeList() {
     modifiedAt: employee.updatedAt ? new Date(employee.updatedAt) : null,
   }));
   return (
-    <div className="w-full h-[500px] rounded-md bg-stone-200 shadow-sm relative">
+    <div className="w-full h-[500px] rounded-md bg-stone-100 shadow-sm relative">
       <DataGrid
         rows={rows}
         columns={columns}
@@ -103,6 +101,11 @@ export default function EmployeeList() {
           setSelectionModel(newSelectionModel);
         }}
         checkboxSelection
+        autosizeOptions={{
+          expand: true,
+          includeHeaders: true,
+          includeOutliers: true,
+        }}
       />
       <DeleteEmployee selectionModel={selectionModel} refetchFn={refetch} />
     </div>

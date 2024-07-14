@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const jwt_secret = process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY";
 
 class Response {
   constructor(status, data, message) {
@@ -17,8 +19,28 @@ class PaginateResponse extends Response {
     this.totalPages = totalPages;
   }
 }
+/**
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {import('express').NextFunction} next
+ */
+function verifyJWT(req, res, next) {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  jwt.verify(token, jwt_secret, (err, decoded) => {
+    if (err) {
+      return res.sendStatus(403);
+    }
+    req.user = decoded;
+    next();
+  });
+}
 
 module.exports = {
   Response,
-  PaginateResponse
+  PaginateResponse,
+  verifyJWT
 };

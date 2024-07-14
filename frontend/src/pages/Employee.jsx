@@ -5,6 +5,7 @@ import fetcher from "../utils/fetcher";
 import Error from "../components/Error";
 import AddOrUpdateEmployee from "../components/AddOrUpdateEmployee";
 import AddOrUpdateSalary from "../components/AddOrUpdateSalary";
+import Navbar from "../components/Navbar";
 
 export default function Employee() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function Employee() {
 
   if (isLoading) {
     return (
-      <div className="space-y-4 w-full h-screen overflow-y-auto bg-stone-300 p-10 text-black">
+      <div className="space-y-4 w-full h-screen overflow-y-auto bg-stone-300 p-5 lg:p-10 text-black">
         <Skeleton variant="rounded" width={"100%"} height={70} />
         <div className="flex gap-4">
           <Skeleton variant="rounded" width={"100%"} height={300} />
@@ -35,16 +36,16 @@ export default function Employee() {
     return <Error refetchFn={refetch} />;
   }
 
-  console.log(employee);
   return (
-    <div className="w-full h-screen overflow-y-auto bg-stone-300 p-10 text-black">
+    <div className="w-full h-screen overflow-y-auto bg-stone-300 p-5 lg:p-10 pt-0 lg:pt-0 text-black">
+      <Navbar />
       <header className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-slate-900">Employee Details</h1>
-        <Button onClick={() => navigate(`/`)}>Back</Button>
+        <Button onClick={() => navigate(-1)}>Back</Button>
       </header>
       <hr className="my-4 border-slate-700 border-2 rounded-md" />
-      <div className="flex gap-4 w-full">
-        <div className="p-4 shadow-md bg-stone-200 rounded-md basis-1/2">
+      <div className="flex flex-col lg:flex-row gap-4 w-full">
+        <div className="p-4 shadow-md bg-stone-100 rounded-md basis-1/2">
           <div className="flex justify-between items-center">
             <h2 className="text-lg text-slate-600 font-medium">
               Basic Details
@@ -70,12 +71,15 @@ export default function Employee() {
             <div className="col-span-2">{employee?.data?.address}</div>
           </div>
         </div>
-        <div className="p-4 shadow-md bg-stone-200 rounded-md basis-1/2">
+        <div className="p-4 shadow-md bg-stone-100 rounded-md basis-1/2">
           <div className="flex justify-between items-center">
             <h2 className="text-lg text-slate-500 font-medium">
               Salary Details
             </h2>
-            <AddOrUpdateSalary employeeID={employee?.data?.id} salaryData={employee?.data?.salary} />
+            <AddOrUpdateSalary
+              employeeID={employee?.data?.id}
+              salaryData={employee?.data?.salary}
+            />
           </div>
           <div className="grid grid-cols-3 grid-flow-row my-4 gap-3">
             <div className="text-slate-500 col-span-1">Basic Pay</div>

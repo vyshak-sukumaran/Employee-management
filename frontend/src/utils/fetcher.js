@@ -7,6 +7,9 @@ export const BasePath = import.meta.env.VITE_BACKEND_URL;
  * @returns {Promise<Response>}
  */
 export default async function fetcher(url, options={}) {
-    const res = await fetch(`${BasePath}${url}`, options);
+    const res = await fetch(`${BasePath}${url}`, {
+        credentials: 'include',
+        ...options
+    });
     return res.json();
 }

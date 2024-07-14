@@ -10,7 +10,6 @@ const express = require("express");
 async function getAllEmployees(req, res) {
   const limit = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
-
   const offset = limit * (page - 1);
   const sortBy = req.query.sortBy || "id";
   const sortOrder = req.query.sortOrder || "asc";
