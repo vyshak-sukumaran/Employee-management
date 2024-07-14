@@ -3,6 +3,12 @@ const { Response } = require("../utils");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const jwt_secret = process.env.JWT_SECRET_KEY || "JWT_SECRET_KEY";
+
+const cookieOptions = {
+  httpOnly: process.env.COOKIE_HTTPONLY || false,
+  secure: process.env.COOKIE_SECURE || false,
+};
+
 /**
  *
  * @param {import('express').Request} req
@@ -58,7 +64,7 @@ async function signInUser(req, res) {
   };
 
   return res
-    .cookie("token", token, { httpOnly: true })
+    .cookie("token", token, cookieOptions)
     .send(new Response(200, userRes, "Sign in successful"));
 }
 
